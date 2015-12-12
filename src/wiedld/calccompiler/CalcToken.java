@@ -5,39 +5,60 @@
  */
 package wiedld.calccompiler;
 
-
 /**
  *
  * @author wiedld
  */
+public abstract class CalcToken {
 
-public class CalcToken {
+    int pos;
+    int sublevel_up;
 
-    static enum StaticToken {
+    static enum Type {
+
         EOF,
         ADD,
         SUB,
         MUL,
         DIV,
-        MOD
+        MOD,
+        NUM
     }
 
-    final static class Static extends CalcToken {
-        public final StaticToken tok;
+    public final Type type;
 
-        Static(final StaticToken tok) {
-            this.tok = tok;
+    CalcToken(Type type, final int pos) {
+        this.type = type;
+        this.pos = pos;
+        this.sublevel_up = findSublevel();
+    }
+
+    public Type getType() {
+        return type;
+    }
+
+    private int findSublevel() {
+//            CalcToken..previous = LR0Parser.stack.peek();
+        return 1; //To change body of generated methods, choose Tools | Templates.
+    }
+
+   
+    public static class Op extends CalcToken {
+
+        public Op(Type type, int pos) {
+            super(type, pos);
         }
     }
-     
+    
     final static class Num extends CalcToken {
+
         public final int num;
-        
-        Num(final int num) {
+
+        Num(int num, int pos) {
+            super(Type.NUM, pos);
             this.num = num;
+            this.pos = pos;
         }
     }
-
 
 }
-
